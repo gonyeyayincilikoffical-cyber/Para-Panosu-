@@ -1,0 +1,6 @@
+{
+  "name": "Para Panosu — Canlı Piyasa & Bento Borsa",
+  "description": "Bento grid tasarımlı modern canlı döviz, altın, BIST 100, kripto piyasa takip panosu, Yapay Zeka piyasa analisti ve finansal hesaplama araçları.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
