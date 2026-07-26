@@ -1,0 +1,9 @@
+{
+  "short_name": "Para Panosu",
+  "name": "Para Panosu — Canlı Piyasa & Bento Borsa",
+  "icons": [],
+  "start_url": "/",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "display": "standalone"
+}

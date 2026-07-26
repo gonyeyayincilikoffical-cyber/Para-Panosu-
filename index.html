@@ -4,30 +4,69 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Para Panosu — Canlı Piyasa &amp; Bento Borsa</title>
+    <meta name="title" content="Para Panosu — Canlı Piyasa &amp; Bento Borsa" />
+    <meta name="application-name" content="Para Panosu" />
+    <meta name="apple-mobile-web-app-title" content="Para Panosu" />
+    <meta property="og:title" content="Para Panosu — Canlı Piyasa &amp; Bento Borsa" />
+    <meta property="og:site_name" content="Para Panosu" />
+    <meta name="twitter:title" content="Para Panosu — Canlı Piyasa &amp; Bento Borsa" />
+    <link rel="manifest" href="/manifest.json" />
     <script>
       (function() {
-        const TITLE = "Para Panosu — Canlı Piyasa & Bento Borsa";
-        document.title = TITLE;
+        const TARGET_TITLE = "Para Panosu — Canlı Piyasa & Bento Borsa";
+        
+        function enforceTitle() {
+          if (document.title !== TARGET_TITLE) {
+            document.title = TARGET_TITLE;
+          }
+          const tTags = document.getElementsByTagName('title');
+          for (let i = 0; i < tTags.length; i++) {
+            if (tTags[i].textContent !== TARGET_TITLE) {
+              tTags[i].textContent = TARGET_TITLE;
+            }
+          }
+          if (window.parent && window.parent !== window) {
+            try {
+              window.parent.postMessage({ type: 'SET_TITLE', title: TARGET_TITLE }, '*');
+              window.parent.postMessage({ type: 'TITLE_CHANGE', title: TARGET_TITLE }, '*');
+            } catch(e) {}
+          }
+        }
+
+        // Lock prototype getter/setter
+        [Document.prototype, HTMLDocument.prototype].forEach(proto => {
+          if (!proto) return;
+          try {
+            Object.defineProperty(proto, 'title', {
+              get: function() { return TARGET_TITLE; },
+              set: function() { return TARGET_TITLE; },
+              configurable: true,
+              enumerable: true
+            });
+          } catch(e) {}
+        });
+
+        // Direct property lock
         try {
           Object.defineProperty(document, 'title', {
-            get: function() { return TITLE; },
-            set: function() { return TITLE; },
-            configurable: true
+            get: function() { return TARGET_TITLE; },
+            set: function() { return TARGET_TITLE; },
+            configurable: true,
+            enumerable: true
           });
         } catch(e) {}
-        
-        // Also watch DOM title tag changes
-        const observer = new MutationObserver(function() {
-          const titleEl = document.querySelector('title');
-          if (titleEl && titleEl.textContent !== TITLE) {
-            titleEl.textContent = TITLE;
-          }
-        });
-        observer.observe(document.head || document.documentElement, {
-          childList: true,
-          subtree: true,
-          characterData: true
-        });
+
+        enforceTitle();
+
+        // High frequency poll to override any delayed platform scripts (e.g. at 3s)
+        const fastTimer = setInterval(enforceTitle, 50);
+        setTimeout(function() {
+          clearInterval(fastTimer);
+          setInterval(enforceTitle, 500);
+        }, 10000);
+
+        window.addEventListener('DOMContentLoaded', enforceTitle);
+        window.addEventListener('load', enforceTitle);
       })();
     </script>
   </head>
