@@ -101,7 +101,16 @@ export default function App() {
 
   // Set page document title
   useEffect(() => {
-    document.title = "Para Panosu — Canlı Piyasa & Bento Borsa";
+    const APP_TITLE = "Para Panosu — Canlı Piyasa & Bento Borsa";
+    document.title = APP_TITLE;
+    
+    const interval = setInterval(() => {
+      if (document.title !== APP_TITLE) {
+        document.title = APP_TITLE;
+      }
+    }, 500);
+
+    return () => clearInterval(interval);
   }, []);
 
   // Sync LocalStorage
