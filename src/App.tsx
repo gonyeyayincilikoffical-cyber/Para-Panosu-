@@ -99,6 +99,11 @@ export default function App() {
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [selectedAssetForDetail, setSelectedAssetForDetail] = useState<string | null>(null);
 
+  // Set page document title
+  useEffect(() => {
+    document.title = "Para Panosu — Canlı Piyasa & Bento Borsa";
+  }, []);
+
   // Sync LocalStorage
   useEffect(() => {
     localStorage.setItem('para_panosu_watchlist', JSON.stringify(watchlist));
